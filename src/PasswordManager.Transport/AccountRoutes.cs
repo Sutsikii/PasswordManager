@@ -9,5 +9,5 @@ namespace PasswordManager.Transport;
 public partial interface IPasswordManagerClient : IAccountEndpoints
 {
     [Post("/api/account")]
-    new Task<OneOf<SuccessCode, ErrorCode>> Register(RegisterPayload payload);
+    new Task<GenericResult> Register(RegisterPayload payload);
 }

@@ -1,6 +1,10 @@
 ﻿@page "/register"
+@using PasswordManager.Shared.Codes
+@using PasswordManager.Shared.Lib
 
 @inject IPasswordManagerClient Client
+@inject Toaster Toaster
+@inject NavigationManager Router
 
 
 <h3>Inscription</h3>
@@ -30,7 +34,18 @@
 
     private async Task Submit(EditContext arg)
     {
-        await Client.Register(Model);
+        GenericResult r = await Client.Register(Model);
+
+        if (r.IsError())
+        {
+            Toaster.Error(r.GetError());
+            return;
+        }
+        else
+        {
+            Toaster.Success(r.GetSuccess());
+            Router.NavigateTo("/");
+        }
     }
 
 }

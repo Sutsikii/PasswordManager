@@ -5,6 +5,8 @@ public class OneOf<T0, T1>
     public T0? T_0 { get; set; }
     public T1? T_1 { get; set; }
 
+    public OneOf() { }
+
     public OneOf(T0 t0)
     {
         T_0 = t0;

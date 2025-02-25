@@ -18,7 +18,7 @@ public class AccountController : ControllerBase, IAccountEndpoints
     }
 
     [HttpPost]
-    public async Task<OneOf<SuccessCode, ErrorCode>> Register([FromBody]RegisterPayload payload)
+    public async Task<GenericResult> Register([FromBody]RegisterPayload payload)
     {
         if (!ModelState.IsValid)
             return (ErrorCode.BadRequest);

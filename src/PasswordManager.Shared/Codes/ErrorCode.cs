@@ -1,10 +1,23 @@
-﻿namespace PasswordManager.Shared.Codes;
+﻿using System.Runtime.InteropServices.JavaScript;
 
-public enum ErrorCode
+namespace PasswordManager.Shared.Codes;
+
+public class ErrorCode
 {
-    None,
-    Forbidden = 403,
-    NotFound = 404,
-    BadRequest = 405,
-    Existing = 409,
+    public static ErrorCode None => new (0);
+    public static ErrorCode Forbidden => new (403);
+    public static ErrorCode NotFound => new (404);
+    public static ErrorCode BadRequest => new(405);
+    public static ErrorCode Existing => new(409);
+
+    public int Value { get; set; }
+
+    public ErrorCode() { }
+
+    public ErrorCode(int code)
+    {
+        Value = code;
+    }
+
+
 }

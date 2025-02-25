@@ -6,5 +6,5 @@ namespace PasswordManager.Endpoints;
 
 public interface IAccountEndpoints
 {
-    Task<OneOf<SuccessCode, ErrorCode>> Register(RegisterPayload payload);
+    Task<GenericResult> Register(RegisterPayload payload);
 }

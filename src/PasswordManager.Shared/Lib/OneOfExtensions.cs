@@ -9,6 +9,7 @@ namespace PasswordManager.Shared.Lib;
 
 public class GenericResult : OneOf<SuccessCode, ErrorCode>
 {
+    public GenericResult() { }
     public GenericResult(SuccessCode t0) : base(t0) { }
     public GenericResult(ErrorCode t1) : base(t1) { }
 
@@ -27,11 +28,11 @@ public class GenericResult : OneOf<SuccessCode, ErrorCode>
 
     public SuccessCode GetSuccess()
     {
-        return (T_0);
+        return (T_0!);
     }
 
     public ErrorCode GetError()
     {
-        return (T_1);
+        return (T_1!);
     }
 }

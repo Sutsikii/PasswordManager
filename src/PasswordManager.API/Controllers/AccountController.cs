@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PasswordManager.Core.Session;
+using PasswordManager.Database.Models;
 using PasswordManager.Endpoints;
 using PasswordManager.Repository;
 using PasswordManager.Shared.Codes;
@@ -10,11 +12,29 @@ namespace PasswordManager.API.Controllers;
 [Route("/api/[Controller]")]
 public class AccountController : ControllerBase, IAccountEndpoints
 {
-    private AccountRepository Accounts;
+    private readonly SessionService Session;
+    private readonly AccountRepository Accounts;
 
-    public AccountController(AccountRepository accounts)
+    public AccountController(AccountRepository accounts, SessionService session)
     {
         Accounts = accounts;
+        Session = session;
+    }
+
+    [HttpPost("authenticate")]
+    public async Task<GenericResult> Authenticate([FromBody]AuthenticationPayload model)
+    {
+        OneOf<Account, ErrorCode> result = Accounts.TryAuthenticate(model);
+
+        return GenericResult.FromOneOf(result.Match
+        (
+            account =>
+            {
+                Session.BindSession(account);
+                return (SuccessCode.Success);
+            },
+            error => error
+        ));
     }
 
     [HttpPost]

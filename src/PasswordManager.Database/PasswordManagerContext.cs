@@ -17,6 +17,7 @@ public class PasswordManagerContext : DbContext
     }
 
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<Password> Passwords { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -26,7 +27,8 @@ public class PasswordManagerContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ContextConfigurator.WithBuilder(modelBuilder)
-            .Entity<Account>();
+            .Entity<Account>()
+            .Entity<Password>();
     }
 
     public PasswordManagerContext MigrateAndGet()

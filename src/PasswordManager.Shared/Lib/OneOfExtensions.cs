@@ -12,9 +12,11 @@ public class GenericResult : OneOf<SuccessCode, ErrorCode>
     public GenericResult() { }
     public GenericResult(SuccessCode t0) : base(t0) { }
     public GenericResult(ErrorCode t1) : base(t1) { }
+    public GenericResult(SuccessCode? t0, ErrorCode? t1) : base(t0, t1) { } 
 
     public static implicit operator GenericResult(SuccessCode value) => new(value);
     public static implicit operator GenericResult(ErrorCode value) => new(value);
+    public static GenericResult FromOneOf(OneOf<SuccessCode, ErrorCode> value) => new(value.T_0, value.T_1);
 
     public bool IsSuccess()
     {

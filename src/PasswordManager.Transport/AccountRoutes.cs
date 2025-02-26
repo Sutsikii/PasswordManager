@@ -10,4 +10,7 @@ public partial interface IPasswordManagerClient : IAccountEndpoints
 {
     [Post("/api/account")]
     new Task<GenericResult> Register(RegisterPayload payload);
+
+    [Post("/api/account/authenticate")]
+    new Task<GenericResult> Authenticate(AuthenticationPayload model);
 }

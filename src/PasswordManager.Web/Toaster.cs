@@ -9,6 +9,7 @@ public class Toaster
     private Dictionary<int, string> Messages = new ()
     {
         {SuccessCode.Created.Value, "Resource créée"},
+        {ErrorCode.Forbidden.Value, "Authentication requise"},
         {ErrorCode.Existing.Value, "Resource déjà existante"}
     };
 

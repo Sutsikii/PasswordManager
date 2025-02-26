@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PasswordManager.Core;
 using PasswordManager.Database;
 using PasswordManager.Database.Models;
 using PasswordManager.Shared.Codes;
@@ -31,5 +30,18 @@ public class AccountRepository : ARepository<Account>
 
         Set.Add(found);
         return (SuccessCode.Created);
+    }
+
+    public OneOf<Account, ErrorCode> TryAuthenticate(AuthenticationPayload model)
+    {
+        Account? found = Set.FirstOrDefault(i => i.Email == model.Email);
+
+        if (found == null)
+            return (ErrorCode.Forbidden);
+
+        if (!AuthenticationChecker.VerifyPassword(found.Password, model.Password))
+            return (ErrorCode.Forbidden);
+
+        return (found);
     }
 }

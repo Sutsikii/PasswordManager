@@ -6,5 +6,6 @@ namespace PasswordManager.Endpoints;
 
 public interface IAccountEndpoints
 {
+    Task<GenericResult> Authenticate(AuthenticationPayload model);
     Task<GenericResult> Register(RegisterPayload payload);
 }

@@ -1,5 +1,6 @@
 using PasswordManager.API;
 using PasswordManager.API.Components;
+using PasswordManager.Core.Session;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,16 @@ builder.Services.AddRazorComponents()
 builder.Services.AddPasswordManagerContext();
 builder.Services.AddRepositories();
 builder.Services.AddControllers();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddScoped<SessionService>();
+builder.Services.AddHttpContextAccessor();
 
 WebApplication app = builder.Build();
 
@@ -25,11 +36,13 @@ else
     app.UseHsts();
 }
 
+app.MapStaticAssets();
 app.UseAntiforgery();
 
+app.UseSession();
 app.MapControllers();
 
-app.MapStaticAssets();
+
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(PasswordManager.Web._Imports).Assembly);

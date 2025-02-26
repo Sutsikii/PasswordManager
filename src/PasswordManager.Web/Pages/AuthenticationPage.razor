@@ -1,13 +1,13 @@
-﻿@page "/register"
+﻿@page "/authentication"
 
 @inject IPasswordManagerClient Client
 @inject Toaster Toaster
 @inject NavigationManager Router
 
 
-<h3>Inscription</h3>
+<h3>Authentication</h3>
 
-<EditForm Model="Model" OnValidSubmit="Submit" FormName="@typeof(RegisterPage).FullName">
+<EditForm Model="Model" OnValidSubmit="Submit" FormName="@typeof(AuthenticationPage).FullName">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
 
@@ -23,25 +23,24 @@
         <ValidationMessage For="() => Model.Password" />
     </div>
 
-    <button type="submit" class="btn btn-success">S'Inscrire</button>
+    <button type="submit" class="btn btn-success">Se Connecter</button>
 
 </EditForm>
 
 @code {
-    RegisterPayload Model = new();
+    AuthenticationPayload Model = new();
 
     private async Task Submit(EditContext arg)
     {
-        GenericResult r = await Client.Register(Model);
+        GenericResult r = await Client.Authenticate(Model);
 
         if (r.IsError())
         {
-            Toaster.Error(r.GetError());
+            Toaster.Error("Les identifiants ne sont pas bons");
             return;
         }
         else
         {
-            Toaster.Success(r.GetSuccess());
             Router.NavigateTo("/");
         }
     }

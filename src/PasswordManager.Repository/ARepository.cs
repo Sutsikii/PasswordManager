@@ -19,11 +19,18 @@ public abstract class ARepository
     }
 }
 
-public abstract class ARepository<T> : ARepository where T : class
+public abstract class ARepository<T> : ARepository where T : AModel<T>
 {
     protected abstract DbSet<T> Set { get; }
 
     protected ARepository(PasswordManagerContext context) : base(context) { }
+
+    public IQueryable<T> WithId(Guid id)
+    {
+        return (Set
+            .Where(i => i.Id == id)
+            .Take(1));
+    }
 
     public Task SaveAsync()
     {

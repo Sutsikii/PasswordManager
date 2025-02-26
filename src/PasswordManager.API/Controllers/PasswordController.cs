@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PasswordManager.API.Components.Pages;
-using PasswordManager.Core.Session;
+using PasswordManager.API.Session;
+using PasswordManager.Database.Models;
 using PasswordManager.Endpoints;
 using PasswordManager.Repository;
 using PasswordManager.Shared.Codes;
 using PasswordManager.Shared.DTO;
 using PasswordManager.Shared.Lib;
+using PasswordManager.Shared.Payloads;
+using Refit;
 
 namespace PasswordManager.API.Controllers;
 
@@ -19,6 +22,23 @@ public class PasswordController : ControllerBase, IPasswordEndpoints
     {
         Passwords = passwords;
         Session = session;
+    }
+
+    [HttpPost]
+    public async Task<GenericResult> AddPassword([FromBody]CreatePasswordPayload model)
+    {
+        if (!Session.SessionContainer.IsAuthenticated())
+            return (ErrorCode.Forbidden);
+
+        if (!ModelState.IsValid)
+            return (ErrorCode.BadRequest);
+
+        Password password = PasswordRepository.ToModel(model, Session.SessionContainer.Account!);
+
+        Passwords.Add(password);
+        await Passwords.SaveAsync();
+
+        return (SuccessCode.Created);
     }
 
     [HttpGet]

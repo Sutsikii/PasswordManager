@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using PasswordManager.Database.Models;
+﻿using PasswordManager.Database.Models;
 using PasswordManager.Repository;
-using System.Text;
 
-namespace PasswordManager.Core.Session;
+namespace PasswordManager.API.Session;
 
 public class SessionService
 {
@@ -22,14 +20,14 @@ public class SessionService
 
     public void BindSession(Account account)
     {
-        HttpContextAccessor.HttpContext.Session.SetString("AccountId", account.Id.ToString());
+        HttpContextAccessor.HttpContext!.Session.SetString("AccountId", account.Id.ToString());
     }
 
     private SessionContainer GenerateContainer()
     {
         try
         {
-            Guid id = Guid.Parse(HttpContextAccessor.HttpContext.Session.GetString(AccountIdKey));
+            Guid id = Guid.Parse(HttpContextAccessor.HttpContext!.Session.GetString(AccountIdKey)!);
 
             return (new SessionContainer
             {

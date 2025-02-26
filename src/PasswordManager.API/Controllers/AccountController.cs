@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PasswordManager.Core.Session;
+using PasswordManager.API.Session;
 using PasswordManager.Database.Models;
 using PasswordManager.Endpoints;
 using PasswordManager.Repository;

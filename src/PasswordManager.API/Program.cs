@@ -1,6 +1,6 @@
 using PasswordManager.API;
 using PasswordManager.API.Components;
-using PasswordManager.Core.Session;
+using PasswordManager.API.Session;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

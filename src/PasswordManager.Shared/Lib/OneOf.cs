@@ -36,6 +36,16 @@ public class OneOf<T0, T1>
         return (this);
     }
 
+    public OneOf<T0, T1> Match(Func<T0, Task> t0, Func<T1, Task> t1)
+    {
+        if (T_0 != null)
+            t0(T_0);
+        else
+            t1(T_1!);
+
+        return (this);
+    }
+
     public OneOf<R0, R1> Match<R0, R1>(Func<T0, R0> t0, Func<T1, R1> t1)
     {
         if (T_0 != null)

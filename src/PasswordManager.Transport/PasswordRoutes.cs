@@ -9,6 +9,10 @@ namespace PasswordManager.Transport;
 
 public partial interface IPasswordManagerClient : IPasswordEndpoints
 {
+    [Post("/api/password")]
+    new Task<GenericResult> AddPassword(CreatePasswordPayload model);
     [Get("/api/password")]
     new Task<OneOf<PasswordDTO[], ErrorCode>> GetPasswords();
+
+
 }

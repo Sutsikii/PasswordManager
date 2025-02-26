@@ -38,6 +38,11 @@ public abstract class ARepository<T> : ARepository where T : AModel<T>
         Set.Add(model);
     }
 
+    public void Delete(T model)
+    {
+        Set.Remove(model);
+    }
+
     public Task SaveAsync()
     {
         return (Context.SaveChangesAsync());

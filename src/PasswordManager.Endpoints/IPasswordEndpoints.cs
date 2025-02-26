@@ -8,5 +8,6 @@ namespace PasswordManager.Endpoints;
 public interface IPasswordEndpoints
 {
     Task<GenericResult> AddPassword(CreatePasswordPayload model);
+    Task<GenericResult> DeletePassword(Guid id);
     Task<OneOf<PasswordDTO[], ErrorCode>> GetPasswords();
 }

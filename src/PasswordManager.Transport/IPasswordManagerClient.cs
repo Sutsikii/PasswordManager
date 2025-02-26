@@ -4,4 +4,5 @@ namespace PasswordManager.Transport;
 
 public partial interface IPasswordManagerClient
 {
+    
 }

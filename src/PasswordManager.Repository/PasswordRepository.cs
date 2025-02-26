@@ -30,6 +30,7 @@ public class PasswordRepository : ARepository<Password>
             Id = p.Id,
             Account = p.Account.Id,
             Login = p.Login,
+            Service = p.Service,
             Password = p.PasswordContent,
             Description = p.Description
         });
@@ -46,6 +47,5 @@ public class PasswordRepository : ARepository<Password>
             Description = model.Description
         });
     }
-
 
 }

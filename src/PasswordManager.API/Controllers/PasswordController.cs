@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PasswordManager.API.Components.Pages;
 using PasswordManager.API.Session;
 using PasswordManager.Database.Models;
@@ -39,6 +40,25 @@ public class PasswordController : ControllerBase, IPasswordEndpoints
         await Passwords.SaveAsync();
 
         return (SuccessCode.Created);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<GenericResult> DeletePassword(Guid id)
+    {
+        if (!Session.SessionContainer.IsAuthenticated())
+            return (ErrorCode.Forbidden);
+
+        Password? p = Passwords.WithId(id)
+            .Include(i => i.Account)
+            .FirstOrDefault();
+
+        if (p == null || p.Account.Id != Session.SessionContainer.Account!.Id)
+            return (ErrorCode.NotFound);
+
+        Passwords.Delete(p);
+        await Passwords.SaveAsync();
+
+        return (SuccessCode.Success);
     }
 
     [HttpGet]

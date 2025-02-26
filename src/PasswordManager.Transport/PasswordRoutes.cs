@@ -11,6 +11,8 @@ public partial interface IPasswordManagerClient : IPasswordEndpoints
 {
     [Post("/api/password")]
     new Task<GenericResult> AddPassword(CreatePasswordPayload model);
+    [Delete("/api/password/{id}")]
+    new Task<GenericResult> DeletePassword(Guid id);
     [Get("/api/password")]
     new Task<OneOf<PasswordDTO[], ErrorCode>> GetPasswords();
 
